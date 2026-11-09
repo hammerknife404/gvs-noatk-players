@@ -8,7 +8,9 @@ NeoForge 1.21.1 server-side patch for [Guard Villagers](https://www.curseforge.c
 ./gradlew build
 ```
 
-Jar lands in `build/libs/`. CI builds on every push and uploads the jar as a workflow artifact.
+Jar lands in `build/libs/`. CI builds every push to `main` and every pull request and uploads the jar as a workflow artifact. Builds are versioned `X.Y.Z-dev` locally and `X.Y.Z-dev.<commit>` in CI; only the Release workflow builds a plain `X.Y.Z` jar.
+
+To release, bump `mod_version` in `gradle.properties` and merge to `main`: the Release workflow publishes a GitHub release tagged `v<version>` with the jar. Pushes that don't change the version don't release.
 
 ## Behavior
 
