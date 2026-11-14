@@ -24,7 +24,15 @@ jobs:
           distribution: temurin
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4
-      - run: ./gradlew build
+      - name: Build
+        env:
+          TAG: ${{ inputs.tag || (startsWith(github.ref, 'refs/tags/v') && github.ref_name) || '' }}
+        run: |
+          if [ -n "$TAG" ]; then
+            ./gradlew build -Pmod_version="${TAG#v}"
+          else
+            ./gradlew build
+          fi
       - uses: actions/upload-artifact@v4
         with:
           name: guardffpatch
